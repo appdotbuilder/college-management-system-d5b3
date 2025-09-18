@@ -240,63 +240,29 @@ export default function StudentsIndex({ students, statistics }: Props) {
                         </div>
                     )}
 
-                    {/* Pagination */}
+                    {/* Simple Pagination */}
                     {students.data.length > 0 && students.last_page > 1 && (
                         <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6 dark:bg-gray-800 dark:border-gray-700">
-                            <div className="flex-1 flex justify-between sm:hidden">
-                                {students.links[0].url && (
+                            <div className="text-sm text-gray-700 dark:text-gray-300">
+                                Page {students.current_page} of {students.last_page}
+                            </div>
+                            <div className="flex space-x-2">
+                                {students.current_page > 1 && (
                                     <Link
-                                        href={students.links[0].url}
-                                        className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                                        href={route('students.index', { page: students.current_page - 1 })}
+                                        className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300"
                                     >
                                         Previous
                                     </Link>
                                 )}
-                                {students.links[students.links.length - 1].url && (
+                                {students.current_page < students.last_page && (
                                     <Link
-                                        href={students.links[students.links.length - 1].url as string}
-                                        className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                                        href={route('students.index', { page: students.current_page + 1 })}
+                                        className="px-3 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300"
                                     >
                                         Next
                                     </Link>
                                 )}
-                            </div>
-                            <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                                <div>
-                                    <p className="text-sm text-gray-700 dark:text-gray-300">
-                                        Showing <span className="font-medium">{(students.current_page - 1) * students.per_page + 1}</span> to{' '}
-                                        <span className="font-medium">{Math.min(students.current_page * students.per_page, students.total)}</span> of{' '}
-                                        <span className="font-medium">{students.total}</span> results
-                                    </p>
-                                </div>
-                                <div>
-                                    <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                                        {students.links.map((link, index) => {
-                                            if (!link.url) {
-                                                return (
-                                                    <span
-                                                        key={index}
-                                                        className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 cursor-not-allowed dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400"
-                                                        dangerouslySetInnerHTML={{ __html: link.label }}
-                                                    />
-                                                );
-                                            }
-
-                                            return (
-                                                <Link
-                                                    key={index}
-                                                    href={link.url}
-                                                    className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                                                        link.active
-                                                            ? 'z-10 bg-blue-50 border-blue-500 text-blue-600 dark:bg-blue-900/50 dark:border-blue-500 dark:text-blue-300'
-                                                            : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700'
-                                                    }`}
-                                                    dangerouslySetInnerHTML={{ __html: link.label }}
-                                                />
-                                            );
-                                        })}
-                                    </nav>
-                                </div>
                             </div>
                         </div>
                     )}

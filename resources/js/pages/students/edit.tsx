@@ -31,10 +31,21 @@ interface Props {
     [key: string]: unknown;
 }
 
-
+interface StudentFormData {
+    user_id: string;
+    nric_no: string;
+    matric_no: string;
+    program: string;
+    intake_date: string;
+    status: string;
+    phone: string;
+    address: string;
+    guardian_name: string;
+    [key: string]: string;
+}
 
 export default function EditStudent({ student, users, programs }: Props) {
-    const { data, setData, put, processing, errors } = useForm({
+    const { data, setData, put, processing, errors } = useForm<StudentFormData>({
         user_id: student.user_id.toString(),
         nric_no: student.nric_no,
         matric_no: student.matric_no,
